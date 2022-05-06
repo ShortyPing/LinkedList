@@ -52,25 +52,50 @@ void *LL_get(LinkedList *list, unsigned index) {
     }
 }
 
-void LL_del(LinkedList* list) {
-    LinkedListItem *i =list->root;
-    if(i == NULL) {
+void LL_remove(LinkedList *list, int index) {
+    if (index == 0) {
+        list->root = NULL;
+        return;
+    }
+    LinkedListItem *before = LL_get(list, index - 1);
+    LinkedListItem *me = LL_get(list, index);
+    before->next = me->next;
+
+
+}
+
+void LL_foreach(void (*callback)(LinkedListItem *), LinkedList *list) {
+    LinkedListItem *i = list->root;
+    while (i != NULL) {
+        callback(i);
+        i = i->next;
+    }
+}
+
+
+void LL_del(LinkedList *list) {
+    LinkedListItem *i = list->root;
+    if (i == NULL) {
         free(list);
         return;
     }
 
-    while(i->next != NULL) {
-        LinkedListItem *i1 = i->next;
+
+    while (i->next != NULL) {
+        LinkedListItem *tmp = i;
         i = i->next;
-        free(i1);
+        free(tmp);
+
     }
+    free(i);
+    free(list);
 }
 
-int LL_size(LinkedList* list) {
-    LinkedListItem* i = list->root;
+int LL_size(LinkedList *list) {
+    LinkedListItem *i = list->root;
     int ret = 1;
-    if(i == NULL) return 0;
-    while(i->next != NULL) {
+    if (i == NULL) return 0;
+    while (i->next != NULL) {
         i = i->next;
         ret++;
     }

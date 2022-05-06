@@ -23,5 +23,7 @@ LinkedListItem *createLinkedListItem(void*);
 void* LL_get(LinkedList*, unsigned);
 int LL_size(LinkedList*);
 void LL_del(LinkedList*);
+void LL_remove(LinkedList*, int index);
+void LL_foreach(void (*callback) (LinkedListItem*), LinkedList*);
 
 #endif //LINKEDLIST_LINKEDLIST_H
